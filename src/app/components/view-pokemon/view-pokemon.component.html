@@ -1,0 +1,81 @@
+<div class="container">
+    <header class="header">
+        <h1>Pokémon World</h1>
+        <nav>
+            <ul>
+                <li><a href="#search">Buscar Pokémon</a></li>
+                <li><a href="#info">Información</a></li>
+                <li><a href="#types">Tipos de Pokémon</a></li>
+                <li><a href="#history">Historia</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="search" class="search-container">
+            <div class="centered-container">
+                <div class="info-container">
+                    <p class="info-text">Ingrese el nombre de un Pokémon</p>
+                </div>
+                <div class="p-inputgroup full-width">
+                    <input 
+                        pInputText 
+                        type="text" 
+                        [value]="pokemonNameOrId()"
+                        (input)="updateName($any($event.target).value)"
+                        (keydown.enter)="loadPokemon()"
+                        placeholder="Ejemplo: Charmander"
+                    />
+                    <button 
+                        pButton 
+                        type="button" 
+                        icon="pi pi-search" 
+                        (click)="loadPokemon()"
+                    >Buscar</button>
+                </div>
+                
+                <div class="info-container">
+                    <p class="hint">Presiona Enter o haz clic en el icono de búsqueda.</p>
+                </div>
+
+                <div *ngIf="loading()" class="loader-container">
+                    <span class="pokemon"></span>
+                </div>
+                
+                <div *ngIf="animationArray().length === 2 && imagenActual()" class="pokemon-info">
+                    <h2 class="linear-wipe">{{pokemonData()?.species?.name | titlecase}}</h2>
+                    <img [src]="imagenActual()" [alt]="'Imagen de ' + pokemonData()?.species?.name" class="shaking" />
+                    <div class="details">
+                        <p>Tipo: {{ pokemonData()?.types[0]?.type?.name | titlecase }}</p>
+                        <p>Altura: {{ pokemonData()?.height }} dm</p>
+                        <p>Peso: {{ pokemonData()?.weight }} hg</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="info" class="info-section">
+            <h2>¿Qué son los Pokémon?</h2>
+            <p>Los Pokémon son criaturas que habitan el mundo de Pokémon. Los entrenadores Pokémon los capturan y entrenan para pelear entre sí. Hay más de 800 especies diferentes.</p>
+        </section>
+
+        <section id="types" class="info-section">
+            <h2>Tipos de Pokémon</h2>
+            <div class="card-container">
+                <div class="card water">
+                    <h3>Agua</h3>
+                    <p><strong>Fuerte contra:</strong> Fuego</p>
+                    <p><strong>Débil contra:</strong> Eléctrico</p>
+                </div>
+                <div class="card fire">
+                    <h3>Fuego</h3>
+                    <p><strong>Fuerte contra:</strong> Planta</p>
+                    <p><strong>Débil contra:</strong> Agua</p>
+                </div>
+                <!-- Otros tipos... -->
+            </div>
+        </section>
+    </main>
+
+    <p-toast></p-toast>
+</div>
